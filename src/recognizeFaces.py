@@ -18,9 +18,9 @@ es = Elasticsearch(
 )
 
 i = 0
+matched = 0
 for face_encoding in face_encodings:
-    print("Location", json.dumps(face_locations[i]))
-    print("Face", i+1)
+    print("Face", i+1, "location [top,right,bottom,left]:", json.dumps(face_locations[i]))
     response = es.search(
         index="faces",
         body={
@@ -43,7 +43,10 @@ for face_encoding in face_encodings:
     )
     for hit in response['hits']['hits']:
         if (float(hit['_score']) > 0.9):
-            print("==> This face match with",hit['_source']['face_name'],"; the score is" ,hit['_score'])
+            matched += 1
+            print("==> This face match with",hit['_source']['face_name'],"; the score is" ,hit['_score'],"\n")
         else:
-            print("==> Unknown face")
+            print("==> Unknown face\n")
     i += 1
+
+print("Matched", matched)
