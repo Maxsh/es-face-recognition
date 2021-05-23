@@ -1,0 +1,11 @@
+GET {{host}}/_search?pretty
+Content-Type: application/json
+
+
+{
+    "query": {
+        "match_all": {}
+    }
+}
+
+

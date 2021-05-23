@@ -1,0 +1,24 @@
+###
+# Create an Index
+PUT {{host}}/faces
+Content-Type: application/json
+
+
+{
+  "mappings" : {
+    "properties" : {
+      "face_name" : {
+        "type" : "keyword"
+      },
+      "face_encoding" : {
+        "type" : "dense_vector",
+        "dims" : 128
+      }
+    }
+  }
+}
+
+
+###
+# Delete the Index
+DELETE {{host}}/faces

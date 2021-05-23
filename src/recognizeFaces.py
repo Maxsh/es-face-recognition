@@ -2,6 +2,7 @@ import face_recognition
 import numpy as np
 from elasticsearch import Elasticsearch
 import sys
+import json
 
 image = face_recognition.load_image_file(sys.argv[1])
 # detect the faces from the images
@@ -18,8 +19,8 @@ es = Elasticsearch(
 
 i = 0
 for face_encoding in face_encodings:
-    i += 1
-    print("Face",i)
+    print("Location", json.dumps(face_locations[i]))
+    print("Face", i+1)
     response = es.search(
         index="faces",
         body={
@@ -40,10 +41,9 @@ for face_encoding in face_encodings:
             }
         }
     )
-
-for hit in response['hits']['hits']:
-    #double score=float(hit['_score'])
-    if (float(hit['_score']) > 0.93):
-        print("==> This face  match with ", hit['_source']['face_name'],"; the score is" ,hit['_score'])
-    else:
-        print("==> Unknown face")
+    for hit in response['hits']['hits']:
+        if (float(hit['_score']) > 0.9):
+            print("==> This face match with",hit['_source']['face_name'],"; the score is" ,hit['_score'])
+        else:
+            print("==> Unknown face")
+    i += 1

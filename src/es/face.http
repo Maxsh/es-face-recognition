@@ -1,0 +1,5 @@
+POST {{host}}/faces/_doc
+Content-Type: application/json
+
+
+< ../../var/face.json
