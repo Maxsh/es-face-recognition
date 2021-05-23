@@ -13,8 +13,7 @@ face_encodings = face_recognition.face_encodings(image, face_locations)
 # Connect to Elasticsearch cluster
 from elasticsearch import Elasticsearch
 es = Elasticsearch(
-    host="es",
-    port=9200,
+    host="es"
 )
 
 i = 0
