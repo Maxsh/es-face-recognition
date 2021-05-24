@@ -1,5 +1,4 @@
 import face_recognition
-import numpy as np
 from elasticsearch import Elasticsearch
 import sys
 import json
@@ -33,7 +32,7 @@ for face_encoding in face_encodings:
                     "script": {
                         "source": "cosineSimilarity(params.query_vector, 'face_encoding')",
                         "params": {
-                            "query_vector":face_encoding.tolist()
+                            "query_vector": face_encoding.tolist()
                         }
                     }
                 }
@@ -43,7 +42,7 @@ for face_encoding in face_encodings:
     for hit in response['hits']['hits']:
         if (float(hit['_score']) > 0.9):
             matched += 1
-            print("==> This face match with",hit['_source']['face_name'],"; the score is" ,hit['_score'],"\n")
+            print("==> This face match with", hit['_source']['face_name'], "; the score is" , hit['_score'], "\n")
         else:
             print("==> Unknown face\n")
     i += 1
